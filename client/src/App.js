@@ -8,15 +8,15 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import Header from './components/Header';
-import Footer from './components/Footer';
-
 import Home from './pages/Home';
-import Login from './pages/Login';
+import Detail from './pages/Detail';
 import NoMatch from './pages/NoMatch';
-import SingleThought from './pages/SingleThought';
-import Profile from './pages/Profile';
+import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Nav from './components/Nav';
+import { StoreProvider } from './utils/GlobalState';
+import Success from './pages/Success';
+import OrderHistory from './pages/OrderHistory';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -41,9 +41,9 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
-          <Header />
-          <div className="container">
+        <div>
+          <StoreProvider>
+            <Nav />
             <Routes>
               <Route 
                 path="/" 
@@ -58,20 +58,23 @@ function App() {
                 element={<Signup />} 
               />
               <Route 
-                path="/profile" 
-                element={<Profile />} 
+                path="/success" 
+                element={<Success />} 
               />
               <Route 
-                path="/thought/:id" 
-                element={<SingleThought />} 
+                path="/orderHistory" 
+                element={<OrderHistory />} 
+              />
+              <Route 
+                path="/products/:id" 
+                element={<Detail />} 
               />
               <Route 
                 path="*" 
                 element={<NoMatch />} 
               />
             </Routes>
-          </div>
-          <Footer />
+          </StoreProvider>
         </div>
       </Router>
     </ApolloProvider>
